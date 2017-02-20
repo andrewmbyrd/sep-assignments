@@ -1,0 +1,14 @@
+1. A matrix is initialized with user-specified dimensions for width and height.
+In this case, we're concerned with inserting Pixels into a Screen. Using the insert
+method, the user can insert a generic object (in this case a pixel) in to
+the specified row and column from the x and y coordinates.
+
+To read data, the at method returns whatever is in that row and column of the matrix
+
+2. I added a search method that allows you to search for a generic object
+if it exists in the matrix, the method will return to you an array
+with the row, column location. Else it will return nil. Searching for
+and item that may or may not be in the matrix could take as many runs as there
+are cells in the matrix
+
+3. A matrix could represent a Bingo card, a chess board, etc.

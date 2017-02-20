@@ -1,0 +1,5 @@
+1. The data structure for our line is essentially a Queue, just like we used in the breadth-first search algorithm for maps. Developers can use first, last, and middle methods to find the People at those locations in the Queue. Data manipulations is just like that of an amusement park line; a new entry can only be added to the very end, but an existing entry sent away using the Leave method.
+
+2. There is a search method which returns the person if they exist in the queue, otherwise it returns nil.
+
+3. In addition to people in  line, this could represent, operations to be carried out by a computer, letters to be mailed in an office, etc. Anything that requires a First In First Out order of execution.
