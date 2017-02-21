@@ -8,7 +8,7 @@ and store that in Cache, which apparently is MUCH MUCH faster to access.
 In contrast, the Linked List has no spatial locality. Each piece of information in the linked list occupies its own,
 essentially random location in memory, but it also points to another element in the list. The benefit of this is that
 a very large linked list doesn't have to occupy a huge, consecutive collection of blocks of memory.
-The downside is that it is then impossible to store the entire LinkedList in Cache, so accessing infromation is then
+The downside is that it is then impossible to store the entire LinkedList in Cache, so accessing information is then
 relatively slow compared to the array.
 
 
