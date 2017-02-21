@@ -1,0 +1,38 @@
+1. Spatial locality has to do with the arrangement of data in system memory.
+With an array, the entire array occupies one section of memory. As the size of the array grows,
+so, too, does the collection of CONSECUTIVE blocks of memory required to keep track of it.
+The advantage of this is that whenever the CPU needs to look up information from the array,
+it can grab the ENTIRE array from RAM (since it knows every piece of information in the array is right next to its neighbor)
+and store that in Cache, which apparently is MUCH MUCH faster to access.
+
+In contrast, the Linked List has no spatial locality. Each piece of information in the linked list occupies its own,
+essentially random location in memory, but it also points to another element in the list. The benefit of this is that
+a very large linked list doesn't have to occupy a huge, consecutive collection of blocks of memory.
+The downside is that it is then impossible to store the entire LinkedList in Cache, so accessing infromation is then
+relatively slow compared to the array.
+
+
+2. Using a native Array literal new command with a size of 10,000, I'm consistently getting a time of around 2.7E-5 seconds.
+Calling add_to_tail 10000 times takes about 100 times longer: 2.6E-3 seconds.
+
+Accessing the 5000th element of an array is as easy as saying array[5000]; it consistently took 1E-6 seconds (or maybe less, the benchmark seems
+not to want to go any smaller than that.) To do that same thing with a linked list, we have to call node.next 5000 times - in my trials I got around
+3.5E-4 seconds.
+
+Surprisingly, using the Array prototype's delete_at method, getting rid of the 5000th element only took 5E-6 seconds; only 5 times longer to shift 4999
+elements compared to accessing a single one. (This is part of the reason why I think the time for accessing one element of the array may indeed have been
+rounded up). Now there are two cases for deleting the 5000th element of the linked list.
+
+In the first case, you don't know what that node is. So you have to hit `next` 4999 times, and set that nodes `.next` to node 5001. This operation
+takes about 3.3E-4 seconds.
+
+In the second case, I tested a special node that I intentionally set as the 5000th link in the chain. Now, I discovered as I was implementing This
+that it should take the same amount of time to carry this operation out. Why? The problem comes down to the fact that we don't know any node's
+PREVIOUS element. Because we don't know what the previous node is, we can't just isolate even a special node and change its next property. Because
+, in this case, node 4999 would still be pointing at our special node, so it still exists in the list. If we had set up the nodes such that they
+did have a `previous` property, then you could just find that node (wherever it is in memory you don't really care because it doesn't know that
+its part of a list) and you could set its `previous` element to have a next of 5001, and its `next` element to have a `previous` of 4999. Then
+it's just a node floating out in space that the LinkedList object can't get to (and I assume some garbage collector picks it up or something).
+
+So my code STILL has to essentially hit next 5000 times, but for whatever reason it seems to run 10 - 20% faster than explicitly doing NEXT 5000 times.
+It may be that the while loop just does this more efficiently?

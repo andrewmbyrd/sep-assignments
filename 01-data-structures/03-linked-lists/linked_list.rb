@@ -1,4 +1,5 @@
 require_relative 'node'
+require 'benchmark'
 
 class LinkedList
   attr_accessor :head
@@ -44,6 +45,7 @@ class LinkedList
   end
 
   # This method removes `node` from the list and must keep the rest of the list intact.
+
   def delete(node)
     if node == @head
       if @head == @tail
@@ -57,13 +59,14 @@ class LinkedList
       while current_node.next
         if current_node.next == node
           current_node.next = current_node.next.next
-          @tail = current_node if current_node.next == nil
-          break
+         @tail = current_node if current_node.next == nil
+         break
         end
         current_node = current_node.next
       end
     end
   end
+
 
   # This method adds `node` to the front of the list and must set the list's head to `node`.
   def add_to_front(node)
@@ -79,4 +82,43 @@ class LinkedList
     @tail = nil if @head == nil
     return temp
   end
+end
+
+llist = LinkedList.new
+10000.times do
+  llist.add_to_tail(Node.new(1))
+end
+
+llist2 = LinkedList.new
+5000.times do
+  llist2.add_to_tail(Node.new(1))
+end
+
+specialNode = Node.new(2)
+llist2.add_to_tail(specialNode)
+
+5000.times do
+  llist2.add_to_tail(Node.new(1))
+end
+
+a = Array.new(10000)
+
+Benchmark.bm do |x|
+  x.report {b = Array.new(10000)}
+  x.report {10000.times do llist.add_to_tail(Node.new(1)) end}
+  x.report {elem = a[5000]}
+  x.report {curr = llist.head
+              5000.times do
+                curr.next
+                curr = curr.next
+              end}
+  x.report {a.delete_at(5000)}
+  x.report {curr = llist.head
+              5000.times do
+                curr.next
+                curr = curr.next
+              end
+              curr.next = curr.next.next
+            }
+ x.report {llist2.delete(specialNode)}
 end
