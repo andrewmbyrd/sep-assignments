@@ -1,0 +1,4 @@
+Doubling the size of the original array is done in order to make room for new elements after a collision is detected. This particular way of handling collision
+is not ideal for several reasons. First, the size of the array is getting enormous, fast. It's size is growing at Theta(2^n) which is the least efficient growth rate.
+Also, by doubling, we ensure that the size of the array is always even. Since we're determining index location based on modulo of the size, having an even
+number as the size of the array increases the chances of multiple numbers "modulo-ing" to the same index.

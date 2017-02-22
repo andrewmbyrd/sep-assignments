@@ -85,36 +85,39 @@ class LinkedList
 end
 
 llist = LinkedList.new
-10000.times do
+10000000.times do
   llist.add_to_tail(Node.new(1))
 end
 
 llist2 = LinkedList.new
-5000.times do
+5000000.times do
   llist2.add_to_tail(Node.new(1))
 end
 
 specialNode = Node.new(2)
 llist2.add_to_tail(specialNode)
 
-5000.times do
+5000000.times do
   llist2.add_to_tail(Node.new(1))
 end
 
-a = Array.new(10000)
+a = Array.new(10_000_000)
 
 Benchmark.bm do |x|
-  x.report {b = Array.new(10000)}
-  x.report {10000.times do llist.add_to_tail(Node.new(1)) end}
-  x.report {elem = a[5000]}
+  x.report {b = Array.new()
+            10_000_000.times do
+              b << 1
+            end}
+  x.report {10000000.times do llist.add_to_tail(Node.new(1)) end}
+  x.report {elem = a[5000000]}
   x.report {curr = llist.head
-              5000.times do
+              5000000.times do
                 curr.next
                 curr = curr.next
               end}
-  x.report {a.delete_at(5000)}
+  x.report {a.delete_at(5_000_000)}
   x.report {curr = llist.head
-              5000.times do
+              5_000_000.times do
                 curr.next
                 curr = curr.next
               end
