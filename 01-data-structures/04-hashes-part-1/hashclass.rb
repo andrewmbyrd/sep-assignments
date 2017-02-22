@@ -32,7 +32,7 @@ class HashClass
     doubled = Array.new(size*2)
     @items.each do |item|
       if item
-        doubled[index(item.key, doubled.length)] = item if item
+        doubled[index(item.key, doubled.length)] = item
         #puts "item: #{item.key} \n#{doubled}"
       end
     end
