@@ -1,0 +1,20 @@
+Other Collision Strategies:
+  We discussed how inefficient it can be to double the size of the table at every collision; one
+  solution could be to just increase its size by a factor of something less than 2 so that we can
+  still avoid collisions without growing the array so quickly.
+
+  I don't really see why we can't just add the first item to index 0, the second item to index 1, and
+  so on. All the hashing function does at the moment, it seems, is to create a non-cryptographic number
+  which is essentially random. So we could just go in order and then increase the size of the array by 1 whenever
+  a new item is added to the hash.
+
+  Instead of using a linked list in the separate chaining method, we could just use an array of
+  arrays.
+
+My own collision strategy:
+  we could have every element in our underlying array be an object with properties first, second, third ....
+  Whenever a collision occurs, we can then give that object a new property, say, fifth, and the
+  `fifth` property would contain the data we're concerned with.
+
+  I'm sure there would be some efficiency limit after which we could increase the size of the
+  underlying array.
