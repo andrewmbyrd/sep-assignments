@@ -55,6 +55,7 @@ RSpec.describe HashClass, type: Class do
       expect(hash.size).to eq 1
       #hash["key"] = "different"
       #expect(hash.size).to eq 2
+
     end
 
     it "sets the value of key to value" do
