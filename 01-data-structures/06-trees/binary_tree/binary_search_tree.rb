@@ -91,13 +91,16 @@ class BinarySearchTree
 
   # Recursive Breadth First Search
   def printf(children=nil)
+    new_children=[]
+    if children == nil
+      children = []
+      children.push(@root)
+    end
 
-    puts "#{@root.title}: #{@root.rating}\n" if children == nil
     children.each do |child|
       puts "#{child.title}: #{child.rating}\n"
     end
 
-    new_children=[]
     unless children
       new_children.push(@root.left) if @root.left
       new_children.push(@root.right) if @root.right
@@ -108,16 +111,8 @@ class BinarySearchTree
       end
     end
 
+    return if new_children.length == 0
     printf(new_children)
   end
+
 end
-
-root = Node.new("The Matrix", 87)
-tree = BinarySearchTree.new(root)
-
-rim_job = Node.new("Pacific Rim", 70)
-
-tree.insert(root, rim_job)
-puts root.title
-puts root.right
-puts root.left.title
