@@ -11,8 +11,9 @@ class HashClass
     #double the size of the array. keep doing that as long as there
     #is an item at the index where we want to put the new item
 
-    while @items[index(key, size)] && @items[index(key, size)].value !=value
+    while @items[index(key, size)] && @items[index(key, size)].value != value
       resize
+      break if @items[index(key, size)] && @items[index(key, size)].key == key
     end
 
     #when the index for the new item is vacant, slot it in
