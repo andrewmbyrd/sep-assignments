@@ -1,4 +1,5 @@
 require_relative 'node'
+require 'benchmark'
 
 class BinarySearchTree
 
@@ -6,6 +7,7 @@ class BinarySearchTree
 
   def initialize(root)
     @root = root
+    @searched_node = nil
   end
 
   def insert(root, node)
@@ -33,17 +35,18 @@ class BinarySearchTree
     return nil unless data && root
 
     if root.title == data
-      return root
+      @searched_node = root
     end
 
     if root.left
-      return find(root.left, data)
-    end
-    
-    if root.right
-      return find(root.right, data)
+      find(root.left, data)
     end
 
+    if root.right
+      find(root.right, data)
+    end
+
+    return @searched_node
 
   end
 
@@ -117,5 +120,25 @@ class BinarySearchTree
     return if new_children.length == 0
     printf(new_children)
   end
+
+end
+
+root = Node.new(1,1)
+tree = BinarySearchTree.new(root)
+10_000.times do |num|
+  tree.insert(root, Node.new(num,num))
+end
+
+Benchmark.bm do |x|
+  x.report {r = Node.new(1,1)
+            bst = BinarySearchTree.new(r)
+            10_000.times do |num|
+              bst.insert(r, Node.new(num,num))
+            end}
+  x.report {tree.delete(root, 5000)}
+  x.report {tree.delete(root, 7500)}
+  x.report {tree.delete(root, 2500)}
+  x.report {tree.delete(root, 8000)}
+  x.report {tree.delete(root, 2000)}
 
 end

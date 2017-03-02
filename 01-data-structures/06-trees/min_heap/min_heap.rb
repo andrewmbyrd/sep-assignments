@@ -1,4 +1,5 @@
 require_relative 'node'
+require 'benchmark'
 
 class MinHeap
 
@@ -181,5 +182,26 @@ class MinHeap
       return
     end
   end
+
+end
+
+
+root = Node.new(1,1)
+heap = MinHeap.new(root)
+10_000.times do |num|
+  heap.insert(root, Node.new(num,num))
+end
+
+Benchmark.bm do |x|
+  x.report {r = Node.new(1,1)
+            h = MinHeap.new(root)
+            10_000.times do |num|
+              h.insert(r ,Node.new(num,num))
+            end}
+  x.report {heap.delete(root, 5_000)}
+  x.report {heap.delete(root, 7500)}
+  x.report {heap.delete(root, 2500)}
+  x.report {heap.delete(root, 8000)}
+  x.report {heap.delete(root, 1000)}
 
 end
