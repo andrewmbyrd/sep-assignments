@@ -6,16 +6,28 @@ class MinHeap
 
   def initialize(root)
     @root = root
+    #this keeps track of the bottom-right leaf
     @replacer_leaf = root
+    #holds the parent of the botto right leaf
     @leaf_parent = nil
+
+    #holds on to the node that was searched up because
+    #depth first search just is broke as a joke
+    @searched_node = nil
+
   end
 
   def insert(parent_node, new_movie)
 
+    #for the min heap, if ever the new movie rating is lower than the parent node,
+    #then we need to swap their positions
+    #interestingly, trying to just swap the ACTUAL NODE ADDRESSES caused major problems
+    #so we're just swapping the data here
     if new_movie.rating < parent_node.rating
       replaced_node = Node.new(parent_node.title, parent_node.rating)
 
-      parent_node_in_heap = find(@root, parent_node.title)
+      find(@root, parent_node.title)
+      parent_node_in_heap = @searched_node
       parent_node_in_heap.title = new_movie.title
       parent_node_in_heap.rating = new_movie.rating
 
@@ -23,6 +35,9 @@ class MinHeap
 
       insert(parent_node_in_heap, replaced_node)
 
+    #find the lowest, left-most location to put the new entry
+    #if ever it violates heap rule, it wil be handled in the Recursive call
+    #to insert
     else
       if parent_node.left && parent_node.right
         if has_vacancy(parent_node.left)
@@ -30,6 +45,8 @@ class MinHeap
         elsif has_vacancy(parent_node.right)
           insert(parent_node.right, new_movie)
         end
+      #when we find the correct spot to enter the movie, keep track of
+      #the new entry as the lowest, right most leaf
       elsif parent_node.left
         parent_node.right = new_movie
         @replacer_leaf = parent_node.right
@@ -47,7 +64,9 @@ class MinHeap
 
   def delete(root, data)
     #find the node that is to be deleted
-    swapping_node = find(root, data)
+    find(root, data)
+    swapping_node = @searched_node
+
 
     #swap the to-be-delted node's data with that of the lower right leaf
     swapping_node.rating = @replacer_leaf.rating
@@ -90,27 +109,46 @@ class MinHeap
 
   end
 
+  # a semi-depth-first search. it kept returning nil because it wouldn't stop
+  #when it found the correct entry. so we have a global variable that is set
+  # when the desired node is found
   def find(root, data)
     return if data == nil || root == nil
 
-
-    return @root if @root.title == data
-
-
+    if root.title == data
+      @searched_node = root
+    end
 
     if root.left
-      return root.left if root.left.title == data
+       find(root.left, data)
     end
     if root.right
-      return root.right if root.right.title == data
+       find(root.right, data)
     end
-    find(root.left, data)
 
-    find(root.right, data)
-
+    return @searched_node
   end
 
-  def print(root)
+  def print(level=[])
+
+    next_level = []
+    if level.empty?
+      level[0] = @root
+    end
+
+    level_output = ""
+
+    level.each do |node|
+      level_output += "#{node.title}: #{node.rating},  "
+      next_level.push(node.left) if node.left
+      next_level.push(node.right) if node.right
+    end
+
+    level_output += "\n"
+    puts level_output
+    return if next_level.empty?
+    print(next_level)
+
   end
 
   def swap
@@ -118,44 +156,30 @@ class MinHeap
 
   private
 
+  #checks whether a node has room for a new child
   def has_vacancy(node)
     !(node.left && node.right)
   end
+
+  #given the knowledge that we keep track of the lower, right leaf. If ever the lower-right leaf
+  # is deleted, if it had a left brother, then it's the new lowest right leaf. that
+  # situation is handled above in #delete. But if a left node is deleted as the leaf, then
+  # the new lowest right leaf could be anywhere in the heap, even on a different level, But
+  # we know that in that situation, the new leaf will definitely have a left sibling
+  # so traverse the entire heap and assign the global variables everytime you find a parent
+  # with two kids. Again with this UNSTOPPABLE recursion thing, this process will just
+  # keep going no matter what until we find the lowest-right such parent, which is what
+  # we want in this case
 
   def assign_leaf(node)
     if node.left && node.right
       @leaf_parent = node
       @replacer_leaf = node.right
-      find_leaf(node.left)
-      find_leaf(node.right)
+      assign_leaf(node.left)
+      assign_leaf(node.right)
     else
       return
     end
   end
 
 end
-
-root = Node.new("The Matrix", 87)
-heap = MinHeap.new(root)
-
-hope = Node.new("Hope", 93)
-martian = Node.new("Martian", 92)
-empire = Node.new("Empire", 94)
-max = Node.new("Max", 98)
-shank = Node.new("Shank", 91)
-
-heap.insert(root, hope)
-heap.insert(root, martian)
-
-heap.insert(root, empire)
-heap.insert(root, max)
-heap.insert(root, shank)
-
-jim = heap.find(root, "Empire")
-
-puts "#{jim.title}"
-puts "#{root.title}"
-puts "#{root.left.title}  #{root.right.title}"
-puts "#{root.left.left.title}  #{root.left.right.title}"
-
-puts "#{root.right.left.title}"
