@@ -36,11 +36,14 @@ class BinarySearchTree
       return root
     end
 
-    if root.right
-      find(root.right, data)
-    elsif root.left
-      find(root.left, data)
+    if root.left
+      return find(root.left, data)
     end
+    
+    if root.right
+      return find(root.right, data)
+    end
+
 
   end
 

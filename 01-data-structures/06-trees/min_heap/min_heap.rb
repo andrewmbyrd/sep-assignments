@@ -94,9 +94,9 @@ class MinHeap
     return if data == nil || root == nil
 
 
-    return root if root.title == data
+    return @root if @root.title == data
 
-    find(root.left, data)
+
 
     if root.left
       return root.left if root.left.title == data
@@ -104,7 +104,7 @@ class MinHeap
     if root.right
       return root.right if root.right.title == data
     end
-
+    find(root.left, data)
 
     find(root.right, data)
 
