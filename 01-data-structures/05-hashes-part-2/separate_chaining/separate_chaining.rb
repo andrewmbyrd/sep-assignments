@@ -29,7 +29,8 @@ class SeparateChaining
   def [](key)
     current_node = @buckets[index(key, size)].head
     if !current_node
-      raise InvalidKeyError "Cannot retrieve that item - not instantiated"
+      #raise InvalidKeyError "Cannot retrieve that item - not instantiated"
+      return  nil
     end
     while current_node.key != key
       current_node = current_node.next
@@ -37,7 +38,8 @@ class SeparateChaining
     end
 
     if !current_node
-      raise InvalidKeyError "Cannot retrieve that item - not instantiated"
+      #raise InvalidKeyError "Cannot retrieve that item - not instantiated"
+      return nil
     end
 
     return current_node.value
@@ -82,7 +84,7 @@ class SeparateChaining
     end
     puts "Load Factor: #{load_factor}"
   end
-  
+
   # Resize the hash
   def resize
     more_buckets = Array.new(size * 2, LinkedList.new)

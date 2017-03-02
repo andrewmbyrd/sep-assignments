@@ -13,6 +13,7 @@ class HashClass
 
     while @items[index(key, size)] && @items[index(key, size)].value !=value
       resize
+      break if @items[index(key, size)] && @items[index(key, size)].key == key
     end
 
     #when the index for the new item is vacant, slot it in

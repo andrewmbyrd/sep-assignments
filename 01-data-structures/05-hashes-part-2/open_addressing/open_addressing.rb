@@ -15,7 +15,9 @@ class OpenAddressing
     attemptedIndex = index(key, size)
     #puts "First attempted Index #{attemptedIndex}"
     #if the attempted index is occupied and not the same item as
-    #what is being inserted, find a new index until the requested index
+    #what is being inserted and has a
+    #different key than what is trying to
+    #be inserted, find a new index until the requested index
     #is bigger than array size. at that point, resize the array
     while @items[attemptedIndex] && @items[attemptedIndex].value != value
       attemptedIndex = next_open_index(attemptedIndex)
@@ -24,6 +26,7 @@ class OpenAddressing
         resize
         attemptedIndex = index(key, size)
       end
+      break if @items[attemptedIndex] && @items[attemptedIndex].key == key
     end
 
     @items[attemptedIndex] = HashObject.new(key, value)
