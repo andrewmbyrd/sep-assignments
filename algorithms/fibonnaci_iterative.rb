@@ -1,3 +1,5 @@
+require 'benchmark'
+
 def fib(n)
 
   if n < 3
@@ -17,6 +19,7 @@ def fib(n)
 
 end
 
-for num in 1..10
-  puts fib(num)
+Benchmark.bm do |x|
+  x.report {fib(20)}
+
 end

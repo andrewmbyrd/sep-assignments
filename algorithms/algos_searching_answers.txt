@@ -1,0 +1,24 @@
+1. It would take seven iterations to find "G" using the linear searching algorithm. It is the seventh letter of the alphabet
+2. It would take 3 iterations to find "G" in the binary search algorithm. Incidentally, this is as bad as it could have been for this set of data.
+   The binary search takes, at most `log_base2_[num_items].ceil` searches to find any item in a sorted list of items.
+
+3. So its: 0, 1, 1, 2, 3, 5, 8, 13, 21,
+10th: 34
+11th: 55
+12th: 89
+
+Wow, the iterative solution was MUCH faster than the recursive.
+Iterative was about 100 times faster, only 7E-6 seconds, whereas recursive took about 700 E-6 seconds.
+(So this means I never have to use recursion again right?!?!?)
+
+Given an unsorted collection of anything, I'd choose to use the linear search over binary because the binary search can't function
+unless the collections is sorted. Based on the results above, I'd use an iterative algorithm to implement the search.
+
+Given a sorted collection of a million items, I'd use the binary search. The linear search will take at worst 1 million attempts, and on average
+around 500,000 attempts, whereas the binary search will take at most log2(1,000,000).ceil = 20 attempts. Again, based on the results above,
+I'd elect to use an iterative solution. It seems to me that iterative is faster, because it doesn't build a stack of function calls to execute,
+it just works with a smaller and smaller array, in-place. This is before having run benchmarks, though, so I'll test that in the next part of the
+assignment.
+
+P.S (after Benchmark testing both algorithms of the binary search, the iterative method is more efficient on average, and runs up to 10 times
+more quickly than the recursive technique when the searched value is near either end of the array. SO YAAAYY!! NO MORE RECURSION)
