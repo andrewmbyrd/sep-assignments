@@ -1,0 +1,47 @@
+DEF Calc_TIP(meal_cost)
+
+  IF service_was_good
+    SET guess = meal_cost / 10
+    SET tip = guess * 2
+
+  ELSE
+    SET tip = meal_cost / 10
+
+  ENDIF
+
+  RETURN tip
+
+END DEF
+
+
+DEF WASH_DISHES(dishes)
+  WHILE dishes.length > 0
+
+    SET current_dish = dishes.pop()
+    current_dish.wash()
+
+    current_dish.place_in_rack()
+
+  END WHILE
+
+END DEF
+
+
+DEF MAKE_BREAKFAST
+  IF woke_up_today
+    SET feeling_lazy = TRUE
+  ENDIF
+
+  IF feeling_lazy
+    get box_of_cereal
+    get bowl
+    get milk
+
+    pour box_of_cereal into bowl
+    pour milk into bowl
+
+  ENDIF
+
+  eat
+
+END DEF
