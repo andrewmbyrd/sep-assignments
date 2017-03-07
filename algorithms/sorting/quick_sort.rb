@@ -1,3 +1,5 @@
+require 'benchmark'
+
 def quick_sort(collection, left_index, right_index)
   unless collection
     return nil
@@ -32,9 +34,10 @@ end
 
 unsorted = []
 
-15.times do |num|
-  unsorted.push(rand(20))
+50.times do |num|
+  unsorted.push(rand(200))
 end
 
-puts "#{unsorted}"
-quick_sort(unsorted, 0, unsorted.length-1)
+Benchmark.bm do |x|
+  x.report {quick_sort(unsorted, 0, unsorted.length-1)}
+end
