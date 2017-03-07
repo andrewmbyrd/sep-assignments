@@ -46,6 +46,7 @@ class MaxHeap
         break
       end
     end
+
     print
     puts "\n\n"
 
@@ -55,7 +56,7 @@ class MaxHeap
     #find the node that is to be deleted
     find(root, data)
     swapping_node = @searched_node
-
+    return_data = swapping_node.data
 
     #swap the to-be-delted node's data with that of the lower right leaf
     swapping_node.data = @replacer_leaf.data
@@ -77,24 +78,12 @@ class MaxHeap
     #now check to make sure that min heap rules still apply
     #by swapping to the left until rating is in the appropriate
     #location
-    left_kid = swapping_node.left
-
-    while left_kid
-      if swapping_node.data > swapping_node.left.data
-        temp = Node.new(swapping_node.data)
-        #will temp have a different address than swap node here?
-        swapping_node.data = left_kid.data
 
 
-        left_kid.data = temp.data
-
-        left_kid = left_kid.left
-      else
-        break
-      end
-
-    end
-
+    swap(swapping_node)
+    print
+    puts "\n\n"
+    return return_data
   end
 
   # a semi-depth-first search. it kept returning nil because it wouldn't stop
@@ -149,7 +138,7 @@ class MaxHeap
     while parents.length > 0
       dummy = []
       parents.each do |parent|
-        puts "#{parent.data}\n"
+
         if parent.left == nil
           @new_parent = parent
           return
@@ -170,6 +159,30 @@ class MaxHeap
 
   end
 
+  def swap(node)
+    if node.left && node.right
+      if node.left.data > node.data || node.right.data > node.data
+        if node.left.data > node.right.data
+          temp = node.data
+          node.data = node.left.data
+          node.left.data = temp
+          swap(node.left)
+        else
+          temp = node.data
+          node.data = node.right.data
+          node.right.data = temp
+          swap(node.right)
+        end
+      end
+
+    else
+      if node.left && node.left.data > node.data
+        temp = node.data
+        node.data = node.left.data
+        node.left.data = temp
+      end
+    end
+  end
 
   #given the knowledge that we keep track of the lower, right leaf. If ever the lower-right leaf
   # is deleted, if it had a left brother, then it's the new lowest right leaf. that
@@ -194,15 +207,16 @@ class MaxHeap
 
 end
 
+array = [3,25,7,43,42,45,6,8,0,78,5,4]
+r = Node.new(array[0])
+heap = MaxHeap.new(r)
 
-root = Node.new(1)
-heap = MaxHeap.new(root)
-for i in 2..20
-  heap.insert(i)
 
+for i in 1...array.length
+  heap.insert(array[i])
 end
 
-heap.print
+array.length.times  {heap.delete(heap.root, heap.root.data)}
 
 #heap.delete(heap.root, heap.root.data)
 #puts "\n\n"
