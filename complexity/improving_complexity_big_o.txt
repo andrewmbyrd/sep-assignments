@@ -1,0 +1,21 @@
+1. For just optimizing the existing code, I initialilzed our to-be-sorted array with the first element of the combined array. I'm
+not sure if this actually helps with performance at all, but it seems more intuitive, at least, to me. Next I did Ruby's nice
+combined.each for the outer array instead of a for loop. On the inner loop, I can't imagine why we would need to use a while loop
+when we know exactly how many times we could run (sorted.length), so i used a for loop there instead. This seems to save the step
+of doing i++, but that may be done in the background by Ruby for the for loop anyway...
+
+The second break statement wasn't needed because we know if we've reached that point, then we're at the end of the for loop's running.
+
+This algorithm has to put every item from an arbitrary number of arrays into a single array. We'll call the total of all elements from all
+arrays n. So it takes O(n) to combine them. Then it loops through the combined array for its entire length, so n times. In the worst
+case scenario, the inner loop needs to insert a value at the end, so on the first run it would run 1 time, then 2 times, then ... n times.
+We've seen this pattern before: the inner loop runs O(n^2) times. So complexity here is O(n^2) + O(n) for the outer loop +O(n) to build the combined
+array. so O(n^2) is the answer.
+
+2. To improve time complexity, we can use a sorting algorithm that we know has O(nlogn) efficiency. One such algorithm is the merge sort.
+It breaks the original array down into n elements It takes logn runs to do so. Then for each 'level' n elements need to be combined.
+So in this case, time complexity is O(nlogn) for the merge sort + O(n) to build the original array. So O(nlogn).
+
+3. The problem with the above methods in terms of space is that they each must build separate arrays to complete. We know the quick sort
+performs its sorting of the array in-place, which saves time. As discussed in the last checkpoint, we know quick sort has O(n^2) efficiency
+when the array is already sorted, but Big-Theta efficiency is O(nlogn).
