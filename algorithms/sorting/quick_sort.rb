@@ -25,7 +25,7 @@ def quick_sort(collection, left_index, right_index)
     collection[right_index] = collection[new_pivot_loc]
     collection[new_pivot_loc] = pivot
 
-    puts "pass x; #{collection}"
+    
     quick_sort(collection, left_index, new_pivot_loc - 1)
     quick_sort(collection, new_pivot_loc + 1, right_index)
   end

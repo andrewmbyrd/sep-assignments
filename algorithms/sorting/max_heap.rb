@@ -47,9 +47,6 @@ class MaxHeap
       end
     end
 
-    print
-    puts "\n\n"
-
   end
 
   def delete(root, data)
@@ -81,8 +78,7 @@ class MaxHeap
 
 
     swap(swapping_node)
-    print
-    puts "\n\n"
+  
     return return_data
   end
 

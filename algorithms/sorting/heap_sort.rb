@@ -13,12 +13,10 @@ def heap_sort(collection)
     heap.insert(collection[i])
   end
 
-  heap.print
-  puts "\n\n"
+
   for i in 0...collection.length
     sorted.unshift(heap.delete(heap.root, heap.root.data))
-    heap.print
-    puts "\n"
+    
   end
 
   sorted

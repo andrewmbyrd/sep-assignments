@@ -1,0 +1,19 @@
+Average sorting time for each of the three methods (3 trials were taken on each
+in order to obtain an average)
+
+Bucket Sort: 3.2E-5 seconds
+Quick Sort: 5.2E-5 seconds
+Heap Sort: 60E-5 seconds
+
+By these results one could surmise that the Bucket sort is the best one to use. And that may very
+well be the case when the sample size is small like these trials: only 50 items to sort.
+
+But this pattern will not scale. Bucket sort seems to operate on O(N^3) time:N times to put the original array into buckets and then AT WORST, and
+taking into account that big O notation doesn't care about constants, N^2 times to do the selection sort on EACH bucket.
+
+We know quick sort operates on average at O(nlogn) time.
+
+Heap sort seems to work on O(N^2) time: N times to put the elements in a heap, and then N deletions out of the heap, each of which take O(logN) runs to complete.
+
+So quick sort I would think is the best in the general sense, while bucket sort is fine for small sample sizes and relatively little bundling of
+numbers into a small number of buckets.
