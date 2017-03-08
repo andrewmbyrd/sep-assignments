@@ -1,0 +1,44 @@
+1. Because the program will only print whatever is passed into it, it will always just do one execution. So complexity is O(1).
+
+2. The complexity of find_largest is O(n). The function must iterate through every element in the given array once, regardless of where
+the actual largest element is. So if the size of the collection is n, then complexity is O(n).
+
+3. Find_largest_2D_array looks for the largest element in what is essentially a matrix. So each element of collection is an array of UNKNOWN size.
+So, like the problem above, we must iterate through every item in `collection`, which we can generalize as having length n. What isn't clear in the
+problem is how big each subarray is. If each element of `collection` is an array of length, say, 5, then we have a contrast to the example in problem
+2. In problem 2, we did precisely 1 operation for each of n elements. Here in this problem, if each subarray is of length 5, then we'll do 5 operations
+for each of n elements. This would make complexity O(5n), but we ignore constants so just O(n). Although clearly this would run about 5 times slower than
+example in problem 2, even though they have the same complexity.
+
+If each of the subarrays is of random size (which we can assume is less than n because we're calling them SUB-arrays) then similarly, we can assign an
+AVERAGE number of executions that must be executed for each of n things. In this case we again have O(C*n), but we can ignore C, the average number
+of things we have to do, and just say complexity of O(n)
+
+Now, it could be that this is a square matrix. If that is the case, then we know we have to do n operations for each of n items in `collection`, which
+is clearly a complexity of O(n^2).
+
+4. Numbers_recursive will take a number n, and then must call itself a number of times. So lets take 5 for example. Now anytime we see Numbers(1) or
+Numbers(0), that will execute in O(1) time. That means two things: first, we can stop making calls. Second, O(1) is a lower order than everything else
+so we can ignore those executions for our calculation of complexity.
+
+You have to do:                                             Numbers(5)
+               Numbers(4)                 +                                             Numbers(3)
+        Numbers(3)       +         Numbers (2)                           Numbers(2)              +       Numbers(1)
+Numbers(2)  + Numbers(1)      Numbers(1)  + Numbers(0)          Numbers(1) + Numbers(0)
+
+Numbers(1) + Numbers(0)
+
+So if you count, that's 15 operations we have to run. Sure enough, 5+ 4+ 3 + 2 +1 = 15
+So we can generalize to say complexity is O(N + N-1 + N-2 + ... + 1)
+
+For all N, you can say the pattern above evaluates to (N+1)*N / 2
+Ignoring lower order terms and constants, we get O(n^2).
+
+5. numbers_iterative is going to 0... n-1 things. Ignore lower order terms and that n things. Now for each of those n things, it has to do 4 assignments,
+but we don't care because 4 is a constant. So complexity id O(n). And here again we see iteration is superior to recursion in each and every way so
+recursion shall never be used again.
+
+6. The problem gives it away by calling quick_sort on the last 2 lines :). The worst case here is when the data is already sorted. When that is the case,
+it will hit that first `if` statement in the while loop n times, and nothing will ever change place. Then it will make a recursive call to sort with an
+empty array, so that is done immediately, but it also makes a recursive call with n-1 things to do. This same process will repeat until there's only 1 item
+to sort. So again it's n + n-1 + n-2 +.... +1, which we established is O(n^2).
